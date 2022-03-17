@@ -50,6 +50,7 @@ public class ConnectionController {
             }
             DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length, inetAddress, port);
 //            datagramSocket.send(datagramPacket);
+            // this is for multithreading test
             datagramSocket.send(datagramPacket);
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -62,6 +63,7 @@ public class ConnectionController {
             datagramSocket.setSoTimeout(3000);
             DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length, inetAddress, port);
 //            datagramSocket.receive(datagramPacket)
+            // this is for multithreading test
             datagramSocket.receive(datagramPacket);
             return deserialize(datagramPacket.getData());
         } catch (SocketTimeoutException e) {
