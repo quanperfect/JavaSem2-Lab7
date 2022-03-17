@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Vehicles>
+    <Vehicle>
+        <id>0</id>
+        <name>save1</name>
+        <coordinates>
+            <x>2</x>
+            <y>3</y>
+        </coordinates>
+        <creationDate>2022-03-08T07:51:58.511</creationDate>
+        <enginePower>4</enginePower>
+        <fuelConsumption>5</fuelConsumption>
+        <type>PLANE</type>
+        <fuelType>DIESEL</fuelType>
+        <userOwner>admin</userOwner>
+    </Vehicle>
+    <Vehicle>
+        <id>1</id>
+        <name>save2</name>
+        <coordinates>
+            <x>3</x>
+            <y>4</y>
+        </coordinates>
+        <creationDate>2022-03-08T07:52:09.351</creationDate>
+        <enginePower>5</enginePower>
+        <fuelConsumption>6</fuelConsumption>
+        <type>SHIP</type>
+        <fuelType>ALCOHOL</fuelType>
+        <userOwner>admin</userOwner>
+    </Vehicle>
+</Vehicles>

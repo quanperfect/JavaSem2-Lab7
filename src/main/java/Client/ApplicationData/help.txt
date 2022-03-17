@@ -1,0 +1,31 @@
+-------------------APPLICATION USER MANUAL START-------------------
+
+SECURITY CHAPTER:
+    register - register on server
+    login - login
+
+INFORMATION CHAPTER:
+    help - read user manual
+    info - get info about collection (type, initialization date, size)
+    history - your last 7 commands without arguments.
+
+COLLECTION MANAGER CHAPTER:
+    add - add new element to collection
+    update id - update element in collection with this id
+    add_if_min - add element to collection if it is lowest in collection
+
+    group_counting_by_coordinates - view groups of elements by coordinates
+    count_by_fuel_consumption fuelConsumption - count elements that have this fuelConsumption
+
+    remove_by_id id - remove an element with this id from collection
+    remove_lower - remove elements from collection that are lower than this element
+    clear - remove all elements from collection (ADMIN-ONLY)
+    print_descending - show all elements of collection in descending order
+    show - view all elements from collection
+
+SCRIPT CHAPTER:
+    execute_script file_name - execute script from the file with file_name
+
+exit - close program
+
+-------------------APPLICATION USER MANUAL END-------------------
