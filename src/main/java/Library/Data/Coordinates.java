@@ -1,4 +1,4 @@
-package Server.Data;
+package Library.Data;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -37,7 +37,6 @@ public class Server {
         try {
             System.out.println("Creating server...");
             Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter serverport: ");
             int port = InputController.takePortInput();
             datagramSocket = new DatagramSocket(port);
             connectionController = new ConnectionController(datagramSocket, port);

@@ -1,7 +1,6 @@
-package Server.Data;
+package Library.Data;
 
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package Server.Data;
+package Library.Data;
 
 
 import Server.JAXBAdapter.LocalDateTimeAdapter;

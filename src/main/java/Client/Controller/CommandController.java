@@ -4,10 +4,10 @@ package Client.Controller;
 import Client.Client;
 import Client.ServiceData.Request;
 import Client.ServiceData.User;
-import Server.Data.Coordinates;
-import Server.Data.FuelType;
-import Server.Data.Vehicle;
-import Server.Data.VehicleType;
+import Library.Data.Coordinates;
+import Library.Data.FuelType;
+import Library.Data.Vehicle;
+import Library.Data.VehicleType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -28,6 +28,9 @@ public class CommandController {
     public void handleCommand(String command, String arguments) {
         if (!Security.isLoggedIn()) {
             switch (command) {
+                case "change_port":
+                    changePortCommand(arguments);
+                    break;
                 case "register":
                     registerOnServerCommand();
                     break;
@@ -148,6 +151,19 @@ public class CommandController {
         Client.user = user;
         Request request = new Request("login","",null);
         executeCommandOnServer(request);
+    }
+
+    private void changePortCommand(String arguments) {
+        int newport;
+        try {
+            arguments = arguments.trim();
+            newport = Integer.parseInt(arguments);
+        } catch (Exception e) {
+            System.out.println("Incorrect argument for change_port. Please type your port.");
+            newport = InputController.takePortInput();
+        }
+        connectionController.setPort(newport);
+        System.out.println("Port was successfully changed to " + newport + ".");
     }
 
     private void updateCommandHistory(String command) {
@@ -332,7 +348,7 @@ public class CommandController {
     }
 
     private void execute_scriptCommand(String argument) {
-        System.out.println("execute_script command initiated");
+//        System.out.println("execute_script command initiated");
         scriptCommands = new ArrayList<>(fileController.readScriptFileAsCommandsList(argument));
         if (!Objects.equals(scriptCommands.get(0), "OK")) {
             if (Objects.equals(scriptCommands.get(0), "File empty")) {

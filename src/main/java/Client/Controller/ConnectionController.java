@@ -76,4 +76,7 @@ public class ConnectionController {
         return new Response("No response");
     }
 
+    public void setPort(int newport) {
+        this.port = newport;
+    }
 }

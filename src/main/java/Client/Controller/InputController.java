@@ -1,8 +1,8 @@
 package Client.Controller;
 
-import Server.Data.Coordinates;
-import Server.Data.FuelType;
-import Server.Data.VehicleType;
+import Library.Data.Coordinates;
+import Library.Data.FuelType;
+import Library.Data.VehicleType;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -24,6 +24,7 @@ public class InputController {
     }
 
     static public int takePortInput() {
+        System.out.print("Enter serverport: ");
         Scanner in = new Scanner(System.in);
         boolean incorrectInput = true;
         int port = 0;

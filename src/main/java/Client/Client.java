@@ -26,7 +26,6 @@ public class Client {
              System.out.println("Starting client...");
              Scanner scanner = new Scanner(System.in);
              DatagramSocket datagramSocket = new DatagramSocket();
-             System.out.print("Enter serverport: ");
              int port = InputController.takePortInput();
              InetAddress inetAddress = InetAddress.getByName("localhost");
              connectionController = new ConnectionController(datagramSocket, inetAddress, port);

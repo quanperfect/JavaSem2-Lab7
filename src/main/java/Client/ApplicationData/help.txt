@@ -3,6 +3,7 @@
 SECURITY CHAPTER:
     register - register on server
     login - login
+    change_port - change connection serverport
 
 INFORMATION CHAPTER:
     help - read user manual

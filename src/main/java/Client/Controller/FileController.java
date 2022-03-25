@@ -25,7 +25,7 @@ public class FileController {
         try {
             Scanner input = new Scanner(System.in);
             File scriptTxt = new File(thisTXTfilepath);
-            System.out.println(thisTXTfilepath);
+            //System.out.println(thisTXTfilepath);
             input = new Scanner(scriptTxt);
 
             while (input.hasNextLine()) {

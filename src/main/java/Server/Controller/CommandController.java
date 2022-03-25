@@ -271,15 +271,15 @@ public class CommandController {
 
     private Response remove_lowerCommand(Request request) {
         System.out.println("remove_lower command initiated");
-
+        request.getVehicle().setId(0);
         Response response = new Response();
 
-        if (collection.removeAllWithLowerEnginePower(request.getVehicle().getEnginePower())) {
-            response.addLine(request.getVehicle().toString());
-            response.addLine("Removed all vehicles that have lower enginePower than inputted vehicle.");
+        if (collection.removeLower(request.getVehicle(), request.getUser().getUsername())) {
+            response.addLine("Inputted Vehicle: " + request.getVehicle().toString());
+            response.addLine("Removed all your vehicles that have lower enginePower than inputted vehicle.");
         }
         else {
-            response.addLine(request.getVehicle().toString());
+            response.addLine("Inputted Vehicle: " + request.getVehicle().toString());
             response.addLine("Problems with connection to database, not all (or no at all) vehicles that have lower enginePower were removed from collection.");
         }
 
@@ -314,7 +314,6 @@ public class CommandController {
                 return response;
             }
         }
-
 
         Integer count = collection.countVehiclesByFuelConsumption(inputFuelConsumption);
         if (inputFuelConsumption == null) {

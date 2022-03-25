@@ -2,10 +2,12 @@ package Server.Data;
 
 
 
+import Library.Data.Vehicle;
 import Server.Controller.DatabaseController;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -130,24 +132,30 @@ public class Collection {
         writeLock.lock();
         try {
             System.out.println("Lock active, method accessed by thread: " + Thread.currentThread().getId());
-            boolean foundById = false;
-            int vehicleFoundIndex = -1;
+            boolean deleted = false;
+//            int vehicleFoundIndex = -1;
 
             if (databaseController.deleteVehicle(id)) {
-                for (int i = 0; i < collection.size(); i++) {
-                    Vehicle current = collection.get(i);
-                    if (Objects.equals(current.getId(), id)) {
-                        foundById = true;
-                        vehicleFoundIndex = i;
-                    }
-                }
-                if (foundById) {
-                    if (collection.remove(vehicleFoundIndex) != null) {
-                        return true;
-                    }
+                if (collection.removeIf((current) -> (Objects.equals(current.getId(), id)))) {
+                    deleted = true;
                 }
             }
-            return false;
+
+//            if (databaseController.deleteVehicle(id)) {
+//                for (int i = 0; i < collection.size(); i++) {
+//                    Vehicle current = collection.get(i);
+//                    if (Objects.equals(current.getId(), id)) {
+//                        foundById = true;
+//                        vehicleFoundIndex = i;
+//                    }
+//                }
+//                if (foundById) {
+//                    if (collection.remove(vehicleFoundIndex) != null) {
+//                        return true;
+//                    }
+//                }
+//            }
+            return deleted;
         } finally {
             System.out.println("Unlocking lock");
             writeLock.unlock();
@@ -181,7 +189,7 @@ public class Collection {
             if (databaseController.clearVehicles()) {
                 try {
                     collection.clear();
-                } catch (UnsupportedOperationException e) {
+                } catch (Exception e) {
                     clearSuccess = false;
                 }
             }
@@ -195,17 +203,22 @@ public class Collection {
         }
     }
 
-    public boolean removeAllWithLowerEnginePower(long targetEnginePower) {
+    public boolean removeLower(Vehicle targetVehicle, String username) {
         writeLock.lock();
-
         try {
             if (collection.size() == 0) {
                 return true;
             }
             boolean databaseStable = true;
+
+/*            collection.stream().filter(current1 -> (current1.getEnginePower() < targetEnginePower))
+                    .filter(current2 -> (databaseController.deleteVehicle(current2.getId()))).forEach(collection::remove);*/
+            // Невозможно адекватно имплементировать это, так как нет возможности встроить проверку, что все элементы
+            // из локальной коллекции были удалены из БД.
+
             for (int i = 0; i < collection.size(); i++) {
                 Vehicle current = collection.get(i);
-                if (current.getEnginePower() < targetEnginePower) {
+                if (current.compareTo(targetVehicle) == -1 && Objects.equals(current.getUserOwner(), username)) {
                     if (databaseController.deleteVehicle(current.getId())) {
                         collection.remove(i);
                     }
@@ -215,7 +228,6 @@ public class Collection {
                     i--;
                 }
             }
-
             return databaseStable;
         } finally {
             writeLock.unlock();
@@ -229,14 +241,9 @@ public class Collection {
             if (collection.size() == 0) {
                 return 0;
             }
-            Integer count = 0;
-            for (int i = 0; i < collection.size(); i++) {
-                Vehicle current = collection.get(i);
-                if (Objects.equals(current.getFuelConsumption(), targetFuelConsumption)) {
-                    count++;
-                }
-            }
-            return count;
+            Long count = collection.stream().filter((current) -> (Objects.equals(current.getFuelConsumption(), targetFuelConsumption))).count();
+
+            return count.intValue();
         } finally {
             readLock.unlock();
         }
@@ -246,22 +253,10 @@ public class Collection {
         readLock.lock();
 
         try {
-            ArrayList<Vehicle> tempCollection = collection;
+            List<Vehicle> tempCollection = new ArrayList<>();
             String printedCollection = "";
-            boolean changesMade = true;
-            while (changesMade) {
-                changesMade = false;
-                for (int i = 0; i < tempCollection.size()-1; i++) {
-                    Vehicle current = tempCollection.get(i);
-                    Vehicle next = tempCollection.get(i+1);
-                    if (current.getEnginePower() < next.getEnginePower()) {
-                        changesMade = true;
-                        tempCollection.set(i, next);
-                        tempCollection.set(i+1,current);
-                    }
-                }
-            }
-            for (int i = 0; i < tempCollection.size(); i++) {
+            tempCollection = collection.stream().sorted(Vehicle::compareTo).toList();
+            for (int i = tempCollection.size()-1; i >= 0; i--) {
                 Vehicle current = tempCollection.get(i);
                 printedCollection += current.toString() + "\n";
             }
@@ -413,7 +408,6 @@ public class Collection {
             readLock.unlock();
         }
     }
-
 
     public Integer getCollectionSize() {
         readLock.lock();

@@ -1,11 +1,12 @@
 package Server.Controller;
 
 import Client.ServiceData.User;
+import Library.Data.Coordinates;
+import Library.Data.FuelType;
+import Library.Data.Vehicle;
+import Library.Data.VehicleType;
 import Server.Data.*;
-import Server.JAXBAdapter.LocalDateTimeAdapter;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class DatabaseController {
 
     public DatabaseController() {
     }
+
+
 
     public DatabaseController(Collection collection) {
         this.collection = collection;

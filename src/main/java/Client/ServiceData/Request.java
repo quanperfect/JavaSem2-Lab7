@@ -1,7 +1,7 @@
 package Client.ServiceData;
 
 import Client.Client;
-import Server.Data.Vehicle;
+import Library.Data.Vehicle;
 
 import java.io.Serial;
 import java.io.Serializable;
